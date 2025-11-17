@@ -122,6 +122,77 @@ const cardVariants: Variants = {
   },
 };
 
+// Şehir bazlı Google Maps POI listesi
+const CITY_POIS: Record<string, string[]> = {
+  "paris|france": [
+    "Eiffel Tower",
+    "Louvre Museum",
+    "Montmartre",
+    "Seine River"
+  ],
+  "lyon|france": [
+    "Vieux Lyon",
+    "Basilica of Notre-Dame de Fourvière",
+    "Rhône riverside"
+  ],
+  "nice|france": [
+    "Promenade des Anglais",
+    "Vieux Nice",
+    "Nice beach"
+  ],
+  "rome|italy": [
+    "Colosseum",
+    "Roman Forum",
+    "Trevi Fountain",
+    "Vatican City"
+  ],
+  "florence|italy": [
+    "Duomo di Firenze",
+    "Uffizi Gallery",
+    "Ponte Vecchio"
+  ],
+  "milan|italy": [
+    "Duomo di Milano",
+    "Galleria Vittorio Emanuele II",
+    "Brera district"
+  ],
+  "barcelona|spain": [
+    "Sagrada Família",
+    "Park Güell",
+    "La Rambla"
+  ],
+  "madrid|spain": [
+    "Plaza Mayor",
+    "Royal Palace of Madrid",
+    "Retiro Park"
+  ],
+  "berlin|germany": [
+    "Brandenburg Gate",
+    "Berlin Wall Memorial",
+    "Museum Island"
+  ],
+  "munich|germany": [
+    "Marienplatz",
+    "English Garden",
+    "Nymphenburg Palace"
+  ],
+  "istanbul|turkey": [
+    "Hagia Sophia",
+    "Blue Mosque",
+    "Grand Bazaar",
+    "Bosphorus"
+  ],
+  "cappadocia|turkey": [
+    "Göreme Open-Air Museum",
+    "Fairy chimneys",
+    "Hot-air balloons"
+  ]
+};
+
+function cityKey(name: string, country: string) {
+  return `${name.toLowerCase().trim()}|${country.toLowerCase().trim()}`;
+}
+
 export default function SwipePage() {
   const searchParams = useSearchParams();
 
@@ -215,6 +286,13 @@ export default function SwipePage() {
       setIsGenerating(false);
     }
   };
+
+  // Google Maps link üretimi
+  const uniqueLikedCityKeys = Array.from(
+    new Set(
+      likedCities.map((c) => cityKey(c.name, c.country))
+    )
+  );
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-rose-50 flex items-center justify-center px-3 py-6 sm:px-4 sm:py-10">
@@ -318,7 +396,9 @@ export default function SwipePage() {
           </div>
         ) : (
           <div className="bg-sky-50 border border-sky-100 rounded-2xl p-5 shadow-sm text-sm text-slate-700 space-y-4">
-            <h2 className="text-lg font-semibold">You reviewed all cities</h2>
+            <h2 className="text-lg font-semibold mb-1">
+              Your TripSwipe journey
+            </h2>
             {likedCities.length === 0 ? (
               <p>
                 You did not like any city yet. You can go back and adjust your
@@ -326,20 +406,49 @@ export default function SwipePage() {
               </p>
             ) : (
               <>
+                {/* Harita + uçak animasyonu */}
+                <div className="relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-r from-sky-200 via-emerald-200 to-rose-200 mb-2">
+                  <div className="h-36 sm:h-44 w-full opacity-80">
+                    <img
+                      src="https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg"
+                      alt="World map route"
+                      className="w-full h-full object-cover mix-blend-multiply"
+                    />
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="relative w-32 sm:w-40 h-16">
+                      <div className="absolute inset-y-1/2 -translate-y-1/2 left-2 right-2 border-dashed border-2 border-red-400 rounded-full opacity-80" />
+                      <div className="absolute left-1 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-red-500 shadow-md shadow-red-400" />
+                      <div className="absolute right-1 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-emerald-500 shadow-md shadow-emerald-400" />
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg sm:text-xl animate-bounce">
+                        ✈
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute bottom-2 left-3 text-[10px] sm:text-xs text-sky-900/80 font-medium bg-white/60 rounded-full px-2 py-0.5">
+                    Route preview based on your likes
+                  </div>
+                </div>
+
+                {/* Beğenilen şehirler listesi */}
                 <div>
-                  <p className="mb-2">
-                    You liked these cities based on your swipes:
+                  <p className="mb-2 font-medium text-slate-800">
+                    You liked these cities:
                   </p>
-                  <ul className="list-disc list-inside space-y-1">
+                  <ul className="list-disc list-inside space-y-1 text-slate-700">
                     {likedCities.map((city) => (
                       <li key={city.name}>
-                        {city.name} ({city.country})
+                        <span className="font-semibold">{city.name}</span>{" "}
+                        <span className="text-xs text-slate-500">
+                          ({city.country})
+                        </span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="pt-2 border-t border-sky-100">
+                {/* Plan oluşturma ve sonuçlar */}
+                <div className="pt-3 border-t border-sky-100 space-y-3">
                   <button
                     type="button"
                     onClick={handleGenerateItinerary}
@@ -352,20 +461,23 @@ export default function SwipePage() {
                   </button>
 
                   {errorMessage && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errorMessage}
-                    </p>
+                    <p className="mt-1 text-xs text-red-500">{errorMessage}</p>
                   )}
 
+                  {/* Gezi planı metni */}
                   {itinerary && (
-                    <div className="mt-4 bg-white rounded-xl border border-slate-200 p-4 max-h-80 overflow-y-auto whitespace-pre-wrap text-xs sm:text-sm">
-                      {itinerary}
+                    <div className="mt-2 bg-white rounded-2xl border border-slate-200 p-4 max-h-80 overflow-y-auto whitespace-pre-wrap text-xs sm:text-sm leading-relaxed shadow-sm">
+                      <h3 className="font-semibold text-sky-800 mb-2 text-sm sm:text-base">
+                        Trip route
+                      </h3>
+                      <p className="font-sans text-slate-800">{itinerary}</p>
                     </div>
                   )}
 
+                  {/* Bütçe kutusu */}
                   {budget && (
-                    <div className="mt-4 bg-sky-50 rounded-xl border border-sky-100 p-3 text-xs sm:text-sm">
-                      <h3 className="font-semibold mb-1">
+                    <div className="mt-2 bg-sky-50 rounded-2xl border border-sky-100 p-3 text-xs sm:text-sm">
+                      <h3 className="font-semibold mb-1 text-sky-900">
                         Estimated budget (rough, in EUR)
                       </h3>
                       <ul className="space-y-1">
@@ -399,6 +511,52 @@ export default function SwipePage() {
                         based on travel season, hotel choice and personal
                         spending.
                       </p>
+                    </div>
+                  )}
+
+                  {/* Google Maps linkleri */}
+                  {uniqueLikedCityKeys.length > 0 && (
+                    <div className="mt-2 bg-white rounded-2xl border border-emerald-100 p-3 text-xs sm:text-sm">
+                      <h3 className="font-semibold mb-1 text-emerald-800">
+                        Open in Google Maps
+                      </h3>
+                      <div className="space-y-2">
+                        {uniqueLikedCityKeys.map((key) => {
+                          const pois = CITY_POIS[key];
+                          if (!pois || pois.length === 0) return null;
+
+                          const [namePart, countryPart] = key
+                            .split("|")
+                            .map((s) => s.charAt(0).toUpperCase() + s.slice(1));
+
+                          return (
+                            <div key={key}>
+                              <p className="font-medium text-slate-800 mb-1">
+                                {namePart}, {countryPart}
+                              </p>
+                              <ul className="flex flex-wrap gap-2">
+                                {pois.map((place) => {
+                                  const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                                    `${place} ${namePart}`
+                                  )}`;
+                                  return (
+                                    <li key={place}>
+                                      <a
+                                        href={url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] text-emerald-800 hover:bg-emerald-100 transition"
+                                      >
+                                        {place}
+                                      </a>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>
