@@ -1,14 +1,39 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const ALL_COUNTRIES = ["France", "Italy", "Spain", "Germany", "Turkey"];
+const ALL_COUNTRIES = [
+  "France",
+  "Italy",
+  "Spain",
+  "Germany",
+  "Turkey",
+  "Greece",
+  "United Kingdom",
+  "Netherlands",
+  "Switzerland",
+  "Austria",
+  "Czech Republic",
+  "Portugal",
+  "United States",
+  "Japan",
+  "Thailand",
+  "United Arab Emirates",
+  "Indonesia",
+  "Australia",
+  "Mexico",
+  "Egypt"
+];
 
-export default function Home() {
+export default function HomePage() {
   const router = useRouter();
-  const [selectedCountries, setSelectedCountries] = useState<string[]>(["France"]);
-  const [days, setDays] = useState("5");
+
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([
+    "France",
+    "Italy"
+  ]);
+  const [days, setDays] = useState<number>(5);
 
   const toggleCountry = (country: string) => {
     setSelectedCountries((prev) =>
@@ -19,79 +44,100 @@ export default function Home() {
   };
 
   const handleStart = () => {
-    if (selectedCountries.length === 0) {
-      alert("Please select at least one country.");
-      return;
-    }
-
+    const safeDays = Math.max(1, Math.min(21, Number(days) || 5));
     const countriesParam = selectedCountries.join(",");
-    const url = `/swipe?countries=${encodeURIComponent(
-      countriesParam
-    )}&days=${days}`;
+
+    const url =
+      selectedCountries.length > 0
+        ? `/swipe?countries=${encodeURIComponent(
+            countriesParam
+          )}&days=${encodeURIComponent(String(safeDays))}`
+        : `/swipe?days=${encodeURIComponent(String(safeDays))}`;
 
     router.push(url);
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-sky-100 via-rose-50 to-emerald-100 flex items-center justify-center px-4">
-      <div className="max-w-xl w-full bg-white/90 backdrop-blur rounded-3xl shadow-xl border border-sky-100 p-8">
+    <main className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-rose-50 flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-3xl bg-white/90 backdrop-blur rounded-3xl shadow-xl border border-sky-100 p-6 sm:p-8">
         <div className="mb-6 text-center">
-          <h1 className="text-4xl font-extrabold text-sky-800 mb-2 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-sky-800 mb-2">
             TripSwipe
           </h1>
-          <p className="text-slate-600">
-            Pick your dream countries and trip duration. We will turn your
-            choices into a unique travel experience.
+          <p className="text-slate-600 text-sm sm:text-base">
+            Pick the countries you are interested in, choose how many days you
+            have, then swipe through cities like a travel Tinder.
           </p>
         </div>
 
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-sm font-semibold text-slate-700 mb-2">
-              Select countries
-            </h2>
-            <div className="grid grid-cols-2 gap-2">
-              {ALL_COUNTRIES.map((country) => (
+        <section className="mb-6">
+          <h2 className="text-sm font-semibold text-slate-800 mb-2">
+            Select countries
+          </h2>
+          <p className="text-xs text-slate-500 mb-3">
+            You can choose one or more countries. The swipe screen will only
+            show cities from these countries.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-60 overflow-y-auto pr-1">
+            {ALL_COUNTRIES.map((country) => {
+              const active = selectedCountries.includes(country);
+              return (
                 <button
                   key={country}
                   type="button"
                   onClick={() => toggleCountry(country)}
-                  className={`text-sm rounded-full px-3 py-2 border transition ${
-                    selectedCountries.includes(country)
+                  className={[
+                    "text-xs sm:text-sm rounded-full px-3 py-2 border transition text-left",
+                    active
                       ? "bg-sky-500 text-white border-sky-500 shadow-sm"
                       : "bg-white text-slate-700 border-slate-200 hover:bg-sky-50"
-                  }`}
+                  ].join(" ")}
                 >
                   {country}
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
+        </section>
 
-          <div>
-            <h2 className="text-sm font-semibold text-slate-700 mb-2">
-              Trip duration
-            </h2>
-            <select
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+        <section className="mb-6">
+          <h2 className="text-sm font-semibold text-slate-800 mb-2">
+            Trip length
+          </h2>
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              min={1}
+              max={21}
               value={days}
-              onChange={(e) => setDays(e.target.value)}
-            >
-              <option value="3">3 days (short escape)</option>
-              <option value="5">5 days</option>
-              <option value="7">7 days (one week)</option>
-              <option value="10">10 days (extended trip)</option>
-            </select>
+              onChange={(e) => setDays(Number(e.target.value) || 1)}
+              className="w-20 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            />
+            <span className="text-sm text-slate-600">days</span>
           </div>
+          <p className="mt-1 text-[11px] text-slate-500">
+            The itinerary generator will always respect this total number of
+            days, even if you like many cities.
+          </p>
+        </section>
 
+        <section className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
           <button
             type="button"
             onClick={handleStart}
-            className="w-full mt-2 rounded-xl bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500 text-white font-semibold py-3 shadow-md hover:shadow-lg hover:brightness-110 transition"
+            className="w-full sm:flex-1 rounded-xl bg-gradient-to-r from-rose-500 to-amber-400 text-white font-semibold py-3 text-sm sm:text-base shadow-md hover:brightness-110 transition"
           >
-            Start swiping ✨
+            Start swiping
           </button>
-        </div>
+          <div className="text-[11px] sm:text-xs text-slate-500 text-center sm:text-left">
+            Selected countries:{" "}
+            <span className="font-semibold text-sky-700">
+              {selectedCountries.length > 0
+                ? selectedCountries.join(", ")
+                : "none (all cities will be shown)"}
+            </span>
+          </div>
+        </section>
       </div>
     </main>
   );
