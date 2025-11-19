@@ -23,78 +23,68 @@ type SwipeClientProps = {
 };
 
 const CITIES: City[] = [
-  {
-    name: "Paris",
-    country: "France",
-    imageUrl:
-      "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg",
-  },
-  {
-    name: "Lyon",
-    country: "France",
-    imageUrl:
-      "https://images.pexels.com/photos/2082109/pexels-photo-2082109.jpeg",
-  },
-  {
-    name: "Nice",
-    country: "France",
-    imageUrl:
-      "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg",
-  },
-  {
-    name: "Rome",
-    country: "Italy",
-    imageUrl:
-      "https://images.pexels.com/photos/2082106/pexels-photo-2082106.jpeg",
-  },
-  {
-    name: "Florence",
-    country: "Italy",
-    imageUrl:
-      "https://images.pexels.com/photos/533953/pexels-photo-533953.jpeg",
-  },
-  {
-    name: "Milan",
-    country: "Italy",
-    imageUrl:
-      "https://images.pexels.com/photos/1796715/pexels-photo-1796715.jpeg",
-  },
-  {
-    name: "Barcelona",
-    country: "Spain",
-    imageUrl:
-      "https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg",
-  },
-  {
-    name: "Madrid",
-    country: "Spain",
-    imageUrl:
-      "https://images.pexels.com/photos/951539/pexels-photo-951539.jpeg",
-  },
-  {
-    name: "Berlin",
-    country: "Germany",
-    imageUrl:
-      "https://images.pexels.com/photos/462867/pexels-photo-462867.jpeg",
-  },
-  {
-    name: "Munich",
-    country: "Germany",
-    imageUrl:
-      "https://images.pexels.com/photos/258136/pexels-photo-258136.jpeg",
-  },
-  {
-    name: "Istanbul",
-    country: "Turkey",
-    imageUrl:
-      "https://images.pexels.com/photos/236798/pexels-photo-236798.jpeg",
-  },
-  {
-    name: "Cappadocia",
-    country: "Turkey",
-    imageUrl:
-      "https://images.pexels.com/photos/2346019/pexels-photo-2346019.jpeg",
-  },
+  { name: "Paris", country: "France", imageUrl: "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg" },
+  { name: "Lyon", country: "France", imageUrl: "https://images.pexels.com/photos/2082109/pexels-photo-2082109.jpeg" },
+  { name: "Nice", country: "France", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+
+  { name: "Rome", country: "Italy", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+  { name: "Florence", country: "Italy", imageUrl: "https://images.pexels.com/photos/533953/pexels-photo-533953.jpeg" },
+  { name: "Venice", country: "Italy", imageUrl: "https://images.pexels.com/photos/208701/pexels-photo-208701.jpeg" },
+  { name: "Milan", country: "Italy", imageUrl: "https://images.pexels.com/photos/1796715/pexels-photo-1796715.jpeg" },
+
+  { name: "Barcelona", country: "Spain", imageUrl: "https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg" },
+  { name: "Madrid", country: "Spain", imageUrl: "https://images.pexels.com/photos/951539/pexels-photo-951539.jpeg" },
+  { name: "Seville", country: "Spain", imageUrl: "https://images.pexels.com/photos/6527061/pexels-photo-6527061.jpeg" },
+
+  { name: "Berlin", country: "Germany", imageUrl: "https://images.pexels.com/photos/462867/pexels-photo-462867.jpeg" },
+  { name: "Munich", country: "Germany", imageUrl: "https://images.pexels.com/photos/258136/pexels-photo-258136.jpeg" },
+
+  { name: "Istanbul", country: "Turkey", imageUrl: "https://images.pexels.com/photos/236798/pexels-photo-236798.jpeg" },
+  { name: "Cappadocia", country: "Turkey", imageUrl: "https://images.pexels.com/photos/2346019/pexels-photo-2346019.jpeg" },
+  { name: "Antalya", country: "Turkey", imageUrl: "https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg" },
+
+  { name: "Athens", country: "Greece", imageUrl: "https://images.pexels.com/photos/210307/pexels-photo-210307.jpeg" },
+  { name: "Santorini", country: "Greece", imageUrl: "https://images.pexels.com/photos/1796724/pexels-photo-1796724.jpeg" },
+
+  { name: "London", country: "United Kingdom", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+  { name: "Edinburgh", country: "United Kingdom", imageUrl: "https://images.pexels.com/photos/3408353/pexels-photo-3408353.jpeg" },
+
+  { name: "Amsterdam", country: "Netherlands", imageUrl: "https://images.pexels.com/photos/208733/pexels-photo-208733.jpeg" },
+
+  { name: "Zurich", country: "Switzerland", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+  { name: "Lucerne", country: "Switzerland", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+
+  { name: "Vienna", country: "Austria", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+  { name: "Salzburg", country: "Austria", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+
+  { name: "Prague", country: "Czech Republic", imageUrl: "https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg" },
+
+  { name: "Lisbon", country: "Portugal", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+  { name: "Porto", country: "Portugal", imageUrl: "https://images.pexels.com/photos/210205/pexels-photo-210205.jpeg" },
+
+  { name: "New York", country: "United States", imageUrl: "https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg" },
+  { name: "Los Angeles", country: "United States", imageUrl: "https://images.pexels.com/photos/462024/pexels-photo-462024.jpeg" },
+
+  { name: "Tokyo", country: "Japan", imageUrl: "https://images.pexels.com/photos/373290/pexels-photo-373290.jpeg" },
+  { name: "Kyoto", country: "Japan", imageUrl: "https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg" },
+  { name: "Osaka", country: "Japan", imageUrl: "https://images.pexels.com/photos/373290/pexels-photo-373290.jpeg" },
+
+  { name: "Bangkok", country: "Thailand", imageUrl: "https://images.pexels.com/photos/161758/thailand-bangkok-city-water-161758.jpeg" },
+  { name: "Phuket", country: "Thailand", imageUrl: "https://images.pexels.com/photos/248771/pexels-photo-248771.jpeg" },
+
+  { name: "Dubai", country: "United Arab Emirates", imageUrl: "https://images.pexels.com/photos/3584826/pexels-photo-3584826.jpeg" },
+  { name: "Abu Dhabi", country: "United Arab Emirates", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+
+  { name: "Bali", country: "Indonesia", imageUrl: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg" },
+
+  { name: "Sydney", country: "Australia", imageUrl: "https://images.pexels.com/photos/2193300/pexels-photo-2193300.jpeg" },
+  { name: "Melbourne", country: "Australia", imageUrl: "https://images.pexels.com/photos/447592/pexels-photo-447592.jpeg" },
+
+  { name: "Mexico City", country: "Mexico", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+  { name: "Cancun", country: "Mexico", imageUrl: "https://images.pexels.com/photos/248771/pexels-photo-248771.jpeg" },
+
+  { name: "Cairo", country: "Egypt", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
+  { name: "Luxor", country: "Egypt", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" }
 ];
 
 type Direction = "left" | "right" | 0;
@@ -104,84 +94,57 @@ const cardVariants: Variants = {
     x: 0,
     y: 30,
     opacity: 0,
-    scale: 0.97,
+    scale: 0.97
   },
   center: {
     x: 0,
     y: 0,
     opacity: 1,
-    scale: 1,
+    scale: 1
   },
   exitLeft: {
     x: -320,
     rotate: -18,
     opacity: 0,
-    transition: { duration: 0.25 },
+    transition: { duration: 0.25 }
   },
   exitRight: {
     x: 320,
     rotate: 18,
     opacity: 0,
-    transition: { duration: 0.25 },
-  },
+    transition: { duration: 0.25 }
+  }
 };
 
 const CITY_POIS: Record<string, string[]> = {
-  "paris|france": [
-    "Eiffel Tower",
-    "Louvre Museum",
-    "Montmartre",
-    "Seine River",
-  ],
-  "lyon|france": [
-    "Vieux Lyon",
-    "Basilica of Notre-Dame de Fourvière",
-    "Rhône riverside",
-  ],
-  "nice|france": ["Promenade des Anglais", "Vieux Nice", "Nice beach"],
-  "rome|italy": [
-    "Colosseum",
-    "Roman Forum",
-    "Trevi Fountain",
-    "Vatican City",
-  ],
-  "florence|italy": [
-    "Duomo di Firenze",
-    "Uffizi Gallery",
-    "Ponte Vecchio",
-  ],
-  "milan|italy": [
-    "Duomo di Milano",
-    "Galleria Vittorio Emanuele II",
-    "Brera district",
-  ],
+  "paris|france": ["Eiffel Tower", "Louvre Museum", "Montmartre"],
+  "lyon|france": ["Vieux Lyon", "Notre-Dame de Fourvière"],
+  "nice|france": ["Promenade des Anglais", "Vieux Nice"],
+  "rome|italy": ["Colosseum", "Trevi Fountain", "Vatican City"],
+  "florence|italy": ["Duomo di Firenze", "Uffizi Gallery"],
+  "venice|italy": ["Grand Canal", "St. Mark's Square"],
+  "milan|italy": ["Duomo di Milano", "Galleria Vittorio Emanuele II"],
   "barcelona|spain": ["Sagrada Família", "Park Güell", "La Rambla"],
-  "madrid|spain": [
-    "Plaza Mayor",
-    "Royal Palace of Madrid",
-    "Retiro Park",
-  ],
-  "berlin|germany": [
-    "Brandenburg Gate",
-    "Berlin Wall Memorial",
-    "Museum Island",
-  ],
-  "munich|germany": [
-    "Marienplatz",
-    "English Garden",
-    "Nymphenburg Palace",
-  ],
-  "istanbul|turkey": [
-    "Hagia Sophia",
-    "Blue Mosque",
-    "Grand Bazaar",
-    "Bosphorus",
-  ],
-  "cappadocia|turkey": [
-    "Göreme Open-Air Museum",
-    "Fairy chimneys",
-    "Hot-air balloons",
-  ],
+  "madrid|spain": ["Plaza Mayor", "Royal Palace of Madrid"],
+  "berlin|germany": ["Brandenburg Gate", "Berlin Wall Memorial"],
+  "munich|germany": ["Marienplatz", "English Garden"],
+  "istanbul|turkey": ["Hagia Sophia", "Blue Mosque", "Grand Bazaar"],
+  "cappadocia|turkey": ["Göreme Open-Air Museum", "Fairy chimneys"],
+  "antalya|turkey": ["Old Town Kaleiçi", "Konyaaltı Beach"],
+  "athens|greece": ["Acropolis of Athens", "Plaka"],
+  "santorini|greece": ["Oia village", "Fira"],
+  "london|united kingdom": ["Big Ben", "Tower Bridge"],
+  "amsterdam|netherlands": ["Canals of Amsterdam", "Dam Square"],
+  "prague|czech republic": ["Charles Bridge", "Old Town Square"],
+  "lisbon|portugal": ["Belém Tower", "Alfama"],
+  "porto|portugal": ["Ribeira", "Dom Luís I Bridge"],
+  "new york|united states": ["Times Square", "Central Park"],
+  "tokyo|japan": ["Shibuya Crossing", "Tokyo Skytree"],
+  "bangkok|thailand": ["Grand Palace", "Wat Arun"],
+  "dubai|united arab emirates": ["Burj Khalifa", "Dubai Marina"],
+  "bali|indonesia": ["Ubud rice terraces", "Tanah Lot"],
+  "sydney|australia": ["Sydney Opera House", "Harbour Bridge"],
+  "cairo|egypt": ["Pyramids of Giza", "Egyptian Museum"]
 };
 
 function cityKey(name: string, country: string) {
@@ -190,7 +153,7 @@ function cityKey(name: string, country: string) {
 
 export default function SwipeClient({
   initialCountriesParam,
-  initialDaysParam,
+  initialDaysParam
 }: SwipeClientProps) {
   const countriesParam = initialCountriesParam;
   const daysParam = initialDaysParam;
@@ -254,15 +217,15 @@ export default function SwipeClient({
       const response = await fetch("/api/generate-itinerary", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           days: daysNumber,
           cities: likedCities.map((c) => ({
             name: c.name,
-            country: c.country,
-          })),
-        }),
+            country: c.country
+          }))
+        })
       });
 
       if (!response.ok) {
@@ -339,7 +302,7 @@ export default function SwipeClient({
                   transition={{
                     type: "spring",
                     stiffness: 260,
-                    damping: 20,
+                    damping: 20
                   }}
                   className="absolute inset-0 overflow-hidden rounded-3xl bg-slate-200 shadow-md"
                 >
@@ -364,8 +327,8 @@ export default function SwipeClient({
             </div>
 
             <p className="text-[11px] sm:text-xs text-slate-500 mb-4">
-              If this city feels exciting, press the right button to like it.
-              If not, press the left button to skip and see the next one.
+              If this city feels exciting, press the right button to like it. If
+              not, press the left button to skip and see the next one.
             </p>
 
             <div className="flex items-center gap-4">

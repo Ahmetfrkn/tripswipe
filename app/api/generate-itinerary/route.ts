@@ -27,7 +27,7 @@ const CITY_DATA: Record<string, CityMeta> = {
       "Relax along the Seine River at sunset."
     ],
     shortTitleIdeas: [
-      "Iconic landmarks & first impressions",
+      "Iconic landmarks and first impressions",
       "Art, museums and river walks",
       "Hidden streets and café culture",
       "Romantic views and night lights"
@@ -180,7 +180,7 @@ const CITY_DATA: Record<string, CityMeta> = {
     highlights: [
       "See the fairy chimneys and rock formations.",
       "Visit Göreme Open-Air Museum.",
-      "Wake up early for hot-air balloons (view or ride).",
+      "Wake up early for hot-air balloons.",
       "Walk through valleys and small villages."
     ],
     shortTitleIdeas: [
@@ -194,11 +194,22 @@ function keyForCity(name: string, country: string) {
   return `${name.toLowerCase().trim()}|${country.toLowerCase().trim()}`;
 }
 
-function allocateDays(cities: CityRequest[], totalDays: number) {
-  if (totalDays < cities.length) {
-    totalDays = cities.length;
-  }
+function chooseTopCities(cities: CityRequest[], totalDays: number) {
+  if (cities.length <= totalDays) return cities;
 
+  const withWeight = cities.map((city) => {
+    const meta = CITY_DATA[keyForCity(city.name, city.country)];
+    const weight = meta ? meta.weight : 1;
+    return { city, weight };
+  });
+
+  withWeight.sort((a, b) => b.weight - a.weight);
+
+  const limited = withWeight.slice(0, totalDays).map((w) => w.city);
+  return limited;
+}
+
+function allocateDays(cities: CityRequest[], totalDays: number) {
   const weights = cities.map((city) => {
     const meta = CITY_DATA[keyForCity(city.name, city.country)];
     return meta ? meta.weight : 1;
@@ -223,9 +234,8 @@ function allocateDays(cities: CityRequest[], totalDays: number) {
   }
 
   while (currentTotal < totalDays) {
-    let maxWeightIndex = weights.findIndex(
-      (w) => w === Math.max(...weights)
-    );
+    let maxWeight = Math.max(...weights);
+    let maxWeightIndex = weights.findIndex((w) => w === maxWeight);
     allocated[maxWeightIndex] += 1;
     currentTotal++;
   }
@@ -252,9 +262,7 @@ function buildItineraryText(cities: CityRequest[], daysPerCity: number[]) {
           ? "First impressions and main highlights"
           : "More local neighborhoods and flexible time");
 
-      lines.push(
-        `Day ${dayCounter} – ${city.name}: ${dayTitleBase}`
-      );
+      lines.push(`Day ${dayCounter} – ${city.name}: ${dayTitleBase}`);
 
       const bullets: string[] = [];
 
@@ -312,7 +320,7 @@ function estimateBudget(
 export async function POST(req: Request) {
   const body = await req.json();
   const cities = (body.cities ?? []) as CityRequest[];
-  const totalDays = Number(body.days) || 5;
+  const requestedDays = Number(body.days) || 5;
 
   if (!Array.isArray(cities) || cities.length === 0) {
     return NextResponse.json(
@@ -321,9 +329,14 @@ export async function POST(req: Request) {
     );
   }
 
-  const daysPerCity = allocateDays(cities, totalDays);
-  const itinerary = buildItineraryText(cities, daysPerCity);
-  const budget = estimateBudget(cities, daysPerCity);
+  const totalDays = Math.max(1, requestedDays);
+
+  const effectiveCities =
+    cities.length > totalDays ? chooseTopCities(cities, totalDays) : cities;
+
+  const daysPerCity = allocateDays(effectiveCities, totalDays);
+  const itinerary = buildItineraryText(effectiveCities, daysPerCity);
+  const budget = estimateBudget(effectiveCities, daysPerCity);
 
   return NextResponse.json({
     itinerary,
