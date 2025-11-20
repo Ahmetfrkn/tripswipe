@@ -112,8 +112,7 @@ export default function HomePage() {
                   Welcome back,<span className="text-amber-500"> Ahmet Furkan</span>
                 </h1>
                 <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-xl">
-                  Choose the countries you dream about, set your trip length and
-                  discover a custom route just by swiping through cities.
+                  
                 </p>
               </div>
             </header>
