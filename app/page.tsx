@@ -47,15 +47,17 @@ export default function HomePage() {
   };
 
   const handleStart = () => {
+    if (selectedCountries.length === 0) {
+      alert("Please select at least one country before starting.");
+      return;
+    }
+
     const safeDays = Math.max(1, Math.min(21, Number(days) || 5));
     const countriesParam = selectedCountries.join(",");
 
-    const url =
-      selectedCountries.length > 0
-        ? `/swipe?countries=${encodeURIComponent(
-            countriesParam
-          )}&days=${encodeURIComponent(String(safeDays))}`
-        : `/swipe?days=${encodeURIComponent(String(safeDays))}`;
+    const url = `/swipe?countries=${encodeURIComponent(
+      countriesParam
+    )}&days=${encodeURIComponent(String(safeDays))}`;
 
     router.push(url);
   };
@@ -112,7 +114,8 @@ export default function HomePage() {
                   Welcome back,<span className="text-amber-500"> Ahmet Furkan</span>
                 </h1>
                 <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-xl">
-                  
+                  Choose the countries you dream about, set your trip length and
+                  discover a custom route just by swiping through cities.
                 </p>
               </div>
             </header>
@@ -192,7 +195,7 @@ export default function HomePage() {
               <span className="font-semibold text-sky-700">
                 {selectedCountries.length > 0
                   ? selectedCountries.join(", ")
-                  : "none (all cities will be shown)"}
+                  : "none"}
               </span>{" "}
               · Trip length:{" "}
               <span className="font-semibold text-emerald-700">
