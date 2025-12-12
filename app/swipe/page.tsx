@@ -1,9 +1,10 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import SwipeClient from "./SwipeClient";
 
-export default function SwipePage() {
+function SwipePageInner() {
   const searchParams = useSearchParams();
 
   const countriesParam = searchParams.get("countries") ?? "";
@@ -14,5 +15,13 @@ export default function SwipePage() {
       initialCountriesParam={countriesParam}
       initialDaysParam={daysParam}
     />
+  );
+}
+
+export default function SwipePage() {
+  return (
+    <Suspense fallback={null}>
+      <SwipePageInner />
+    </Suspense>
   );
 }
