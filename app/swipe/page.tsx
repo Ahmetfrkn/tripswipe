@@ -8,7 +8,9 @@ function SwipePageInner() {
   const searchParams = useSearchParams();
 
   const countriesParam = searchParams.get("countries") ?? "";
-  const daysParam = searchParams.get("days") ?? "5";
+  const rawDays = searchParams.get("days")?.trim();
+  const daysParam =
+    rawDays && !Number.isNaN(Number(rawDays)) ? rawDays : "5";
 
   return (
     <SwipeClient
