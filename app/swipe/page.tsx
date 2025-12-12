@@ -1,17 +1,18 @@
 import SwipeClient from "./SwipeClient";
 
 type SwipePageProps = {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: {
+    countries?: string;
+    days?: string;
+  };
 };
 
 export default function SwipePage({ searchParams }: SwipePageProps) {
-  const countriesParamRaw = searchParams?.countries;
-  const daysParamRaw = searchParams?.days;
-
-  const countriesParam =
-    typeof countriesParamRaw === "string" ? countriesParamRaw : "";
+  const countriesParam = searchParams?.countries ?? "";
   const daysParam =
-    typeof daysParamRaw === "string" ? daysParamRaw : "5";
+    searchParams?.days && searchParams.days.trim() !== ""
+      ? searchParams.days
+      : "5";
 
   return (
     <SwipeClient
