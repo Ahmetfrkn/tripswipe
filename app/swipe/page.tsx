@@ -1,18 +1,13 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import SwipeClient from "./SwipeClient";
 
-type SwipePageProps = {
-  searchParams?: {
-    countries?: string;
-    days?: string;
-  };
-};
+export default function SwipePage() {
+  const searchParams = useSearchParams();
 
-export default function SwipePage({ searchParams }: SwipePageProps) {
-  const countriesParam = searchParams?.countries ?? "";
-  const daysParam =
-    searchParams?.days && searchParams.days.trim() !== ""
-      ? searchParams.days
-      : "5";
+  const countriesParam = searchParams.get("countries") ?? "";
+  const daysParam = searchParams.get("days") ?? "5";
 
   return (
     <SwipeClient
