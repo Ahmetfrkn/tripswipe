@@ -55,6 +55,7 @@ export default function HomePage() {
     const safeDays = Math.max(1, Math.min(21, Number(days) || 5));
     const countriesParam = selectedCountries.join(",");
 
+
     const url = `/swipe?countries=${encodeURIComponent(
       countriesParam
     )}&days=${encodeURIComponent(String(safeDays))}`;

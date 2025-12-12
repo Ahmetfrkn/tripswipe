@@ -18,8 +18,8 @@ type Budget = {
 };
 
 type SwipeClientProps = {
-  initialCountriesParam: string;
-  initialDaysParam: string;
+  initialCountriesParam: string | undefined;
+  initialDaysParam: string | undefined;
 };
 
 const CITIES: City[] = [
@@ -27,21 +27,21 @@ const CITIES: City[] = [
   { name: "Lyon", country: "France", imageUrl: "https://images.pexels.com/photos/2082109/pexels-photo-2082109.jpeg" },
   { name: "Nice", country: "France", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
 
-  { name: "Rome", country: "Italy", imageUrl: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" },
-  { name: "Florence", country: "Italy", imageUrl: "https://images.pexels.com/photos/533953/pexels-photo-533953.jpeg" },
-  { name: "Venice", country: "Italy", imageUrl: "https://images.pexels.com/photos/208701/pexels-photo-208701.jpeg" },
-  { name: "Milan", country: "Italy", imageUrl: "https://images.pexels.com/photos/1796715/pexels-photo-1796715.jpeg" },
+  { name: "Rome", country: "Italy", imageUrl: "https://www.klook.com/destination/c92-rome/" },
+  { name: "Florence", country: "Italy", imageUrl: "https://www.travelanddestinations.com/travel-guide-for-visiting-florence/" },
+  { name: "Venice", country: "Italy", imageUrl: "https://www.tourissimo.travel/blog/understanding-venices-unique-transportation" },
+  { name: "Milan", country: "Italy", imageUrl: "https://www.timeout.com/milan/things-to-do/best-things-to-do-in-milan" },
 
-  { name: "Barcelona", country: "Spain", imageUrl: "https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg" },
-  { name: "Madrid", country: "Spain", imageUrl: "https://images.pexels.com/photos/951539/pexels-photo-951539.jpeg" },
-  { name: "Seville", country: "Spain", imageUrl: "https://images.pexels.com/photos/6527061/pexels-photo-6527061.jpeg" },
+  { name: "Barcelona", country: "Spain", imageUrl: "https://www.earthtrekkers.com/best-things-to-do-barcelona-spain/" },
+  { name: "Madrid", country: "Spain", imageUrl: "https://www.wendyperrin.com/destination/insiders-guide-madrid-spain/" },
+  { name: "Seville", country: "Spain", imageUrl: "https://portugal-magik.com/10-best-things-to-do-in-seville-spain/" },
 
-  { name: "Berlin", country: "Germany", imageUrl: "https://images.pexels.com/photos/462867/pexels-photo-462867.jpeg" },
-  { name: "Munich", country: "Germany", imageUrl: "https://images.pexels.com/photos/258136/pexels-photo-258136.jpeg" },
+  { name: "Berlin", country: "Germany", imageUrl: "https://www.berlin.de/en/tourism/" },
+  { name: "Munich", country: "Germany", imageUrl: "https://www.munich.travel/en" },
 
-  { name: "Istanbul", country: "Turkey", imageUrl: "https://images.pexels.com/photos/236798/pexels-photo-236798.jpeg" },
-  { name: "Cappadocia", country: "Turkey", imageUrl: "https://images.pexels.com/photos/2346019/pexels-photo-2346019.jpeg" },
-  { name: "Antalya", country: "Turkey", imageUrl: "https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg" },
+  { name: "Istanbul", country: "Turkey", imageUrl: "https://blog.obilet.com/istanbulda-gezilecek-yerler/" },
+  { name: "Cappadocia", country: "Turkey", imageUrl: "https://www.independent.co.uk/travel/europe/turkey/best-things-to-do-cappadocia-turkey-b2381370.html" },
+  { name: "Antalya", country: "Turkey", imageUrl: "https://www.businessinsider.com/antalya-is-the-fourth-most-visited-city-in-europe-2017-10" },
 
   { name: "Athens", country: "Greece", imageUrl: "https://images.pexels.com/photos/210307/pexels-photo-210307.jpeg" },
   { name: "Santorini", country: "Greece", imageUrl: "https://images.pexels.com/photos/1796724/pexels-photo-1796724.jpeg" },
@@ -155,8 +155,11 @@ export default function SwipeClient({
   initialCountriesParam,
   initialDaysParam
 }: SwipeClientProps) {
-  const countriesParam = initialCountriesParam;
-  const daysParam = initialDaysParam;
+  const countriesParam = initialCountriesParam ?? "";
+  const daysParam =
+    initialDaysParam && initialDaysParam.trim() !== ""
+      ? initialDaysParam
+      : "5";
 
   const selectedCountries = countriesParam
     .split(",")
